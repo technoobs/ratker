@@ -14,7 +14,14 @@ func GenerateToken(signSecret string, userInfo userModel.UserFullDto) {
 	// TODO: need to embeed provided standard claims into custom claims
 	// https://godoc.org/github.com/dgrijalva/jwt-go#StandardClaims
 
-	userJwt := authModel.UserJwt{}
+	userJwt := authModel.UserJwt{
+		Id:    userInfo.UserBasicInfo.Id,
+		Name:  userInfo.UserBasicInfo.Name,
+		Email: userInfo.UserBasicInfo.Email,
+		StandardJwt: jwt.StandardClaims{
+			Id: "ss",
+		},
+	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, userJwt)
 
