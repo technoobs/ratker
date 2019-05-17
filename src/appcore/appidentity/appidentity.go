@@ -13,7 +13,7 @@ const identityPrefix = "app_"
 
 // IAppIdentity interface is used to manage the identity string of the running application
 type IAppIdentity interface {
-	CreateAppIdentity() (string, error)
+	CreateAppIdentity() error
 	GetAppIdentity() string
 	UpdateAppIdentity() (string, error)
 }
@@ -23,17 +23,30 @@ type IAppIdentity interface {
 type AppIdentity struct {
 	identityFlag int
 	// {prefix}
-	IdentityString string // TODO: Define the structure of the IdentityString
+	identityString string // TODO: Define the structure of the IdentityString
 }
 
-func (app *AppIdentity) CreateAppIdentity() (string, error) {
+// CreateAppIdentity function creates the identity string for the application
+func (app *AppIdentity) CreateAppIdentity() error {
+	// TODO: Need to combine random number and current system time
+
 	//now := time.Now()
 	//unixTime := now.Unix()
 	nearBys := findNearBy()
 	app.identityFlag = len(nearBys) + 1
+	app.identityString = "temp-app_identity"
 
-	err := errors.New("Function not completed")
-	return "", err
+	return nil
+}
+
+// GetAppIdentity function returns the identity string of the application
+func (app *AppIdentity) GetAppIdentity() string {
+	return app.identityString
+}
+
+// UpdateAppIdentity function generates a new identity string for the string
+func (app *AppIdentity) UpdateAppIdentity() {
+	// TODO: Implement the same logic as CreateAppIdentity function
 }
 
 // TODO: Create method to generate random string
