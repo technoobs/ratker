@@ -11,13 +11,6 @@ var alphZArray = [26]byte{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
 
 const identityPrefix = "app_"
 
-// IAppIdentity interface is used to manage the identity string of the running application
-type IAppIdentity interface {
-	CreateAppIdentity() error
-	GetAppIdentity() string
-	UpdateAppIdentity() (string, error)
-}
-
 // AppIdentity struct contains the identityFlag to indicate the position of the running server,
 // and the IdentityString for its unique id
 type AppIdentity struct {
@@ -34,7 +27,7 @@ func (app *AppIdentity) CreateAppIdentity() error {
 	//unixTime := now.Unix()
 	nearBys := findNearBy()
 	app.identityFlag = len(nearBys) + 1
-	app.identityString = "temp-app_identity"
+	app.identityString = "temp-app-identity"
 
 	return nil
 }
@@ -45,8 +38,9 @@ func (app *AppIdentity) GetAppIdentity() string {
 }
 
 // UpdateAppIdentity function generates a new identity string for the string
-func (app *AppIdentity) UpdateAppIdentity() {
+func (app *AppIdentity) UpdateAppIdentity() error {
 	// TODO: Implement the same logic as CreateAppIdentity function
+	return nil
 }
 
 // TODO: Create method to generate random string
