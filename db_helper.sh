@@ -3,3 +3,4 @@
 # -- Backup data only: mysqldump --no-create-info --no-create-db
 
 #!bin/bash
+docker exec ratkerDevMaria /usr/bin/mysqldump -u root --password=password RatkerDev > sample.sql
