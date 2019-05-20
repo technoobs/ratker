@@ -1,0 +1,12 @@
+# The helper script that is used to manage database.
+# -- Backup schema only: mysqldump --no-data -u someuser -p mydatabase
+# -- Backup data only: mysqldump --no-create-info --no-create-db
+
+# dump data + schema
+docker exec ratkerDevMaria /usr/bin/mysqldump -u root --password=password RatkerDev > dump.sql
+
+# dump data only
+docker exec ratkerDevMaria /usr/bin/mysqldump --no-create-info --no-create-db -u root --password=password RatkerDev > dump_data.sql
+
+# dump schema only
+docker exec ratkerDevMaria /usr/bin/mysqldump --no-data -u root --password=password RatkerDev > dump_schema.sql
