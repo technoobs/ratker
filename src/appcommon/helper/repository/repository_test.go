@@ -37,3 +37,20 @@ func TestBuildConnString_ShouldReturn_Error(t *testing.T) {
 		t.Errorf("Should have protocol error")
 	}
 }
+
+func TestRepository_ShouldReturn_Success(t *testing.T) {
+	connString := "tester:password@tcp(localhost:23306)/RatkerDev"
+	testRepository := Repository("test", connString)
+	betaRepository := Repository("beta", connString)
+
+	defer testRepository.Conn.Close()
+	defer betaRepository.Conn.Close()
+
+	if testRepository.Name != "test" || testRepository.Conn == nil {
+		t.Errorf("Repository setup failed")
+	}
+
+	if betaRepository.Name != "beta" || betaRepository.Conn == nil {
+		t.Errorf("Repository setup failed")
+	}
+}
