@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -40,17 +41,22 @@ func TestBuildConnString_ShouldReturn_Error(t *testing.T) {
 
 func TestRepository_ShouldReturn_Success(t *testing.T) {
 	connString := "tester:password@tcp(localhost:23306)/RatkerDev"
-	testRepository := Repository("test", connString)
-	betaRepository := Repository("beta", connString)
+	testRepository, err := Repository("test", connString)
 
 	defer testRepository.Conn.Close()
-	defer betaRepository.Conn.Close()
 
-	if testRepository.Name != "test" || testRepository.Conn == nil {
+	if testRepository.Name != "test" || testRepository.Conn == nil || err != nil {
 		t.Errorf("Repository setup failed")
 	}
+}
 
-	if betaRepository.Name != "beta" || betaRepository.Conn == nil {
-		t.Errorf("Repository setup failed")
+func TestRepository_ShouldReturn_Error(t *testing.T) {
+	connString := "tester:password@tcp(localhost:23306)/ABC"
+	_, err := Repository("test", connString)
+
+	if err == nil {
+		t.Errorf("Error should happen here")
+	} else {
+		fmt.Println("Error happened")
 	}
 }

@@ -44,11 +44,11 @@ func BuildConnString(conn *ConnProperty) (*string, error) {
 }
 
 // Repository function
-func Repository(serviceName string, dnsString string) *ServiceRepository {
+func Repository(serviceName string, dnsString string) (*ServiceRepository, error) {
 	db, err := sql.Open("mysql", dnsString)
 	if err != nil {
 		e := fmt.Errorf("Encountered error when intiating repository: %s", err)
-		error.Error(e)
+		return nil, e
 	} else {
 		fmt.Println("Database initiating success...")
 	}
@@ -56,11 +56,16 @@ func Repository(serviceName string, dnsString string) *ServiceRepository {
 	err = db.Ping()
 	if err != nil {
 		e := fmt.Errorf("Database ping is not success")
-		error.Error(e)
+		return nil, e
 	} else {
 		fmt.Println("Database ping success....")
 	}
 
 	serviceRepository := ServiceRepository{Name: serviceName, Conn: db}
-	return &serviceRepository
+	return &serviceRepository, nil
+}
+
+// CloseMe function closes the current reposiroty database connection
+func (s *ServiceRepository) CloseMe() error {
+	return s.Conn.Close()
 }
